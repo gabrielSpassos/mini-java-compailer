@@ -21,6 +21,7 @@ public class AnalisadorLexico {
     private static final String EQUALS_SYMBOL = "=";
     private static final String NEGATE_SYMBOL = "!";
     private static final String ASTERISK_SYMBOL = "*";
+    private static final String PRINT_INITIAL_WORK = "System";
 
     public List<Token> analise(String codeFileName) throws IOException {
         PushbackReader pushbackReader = getPushbackReader(codeFileName);
@@ -107,10 +108,22 @@ public class AnalisadorLexico {
     private Token handleIdentifierAndReservedWord(char character, PushbackReader pushbackReader, int coluna) throws IOException {
         String id = String.valueOf(character);
         char nextCharacter = readChar(pushbackReader);
+
+        if (PRINT_INITIAL_WORK.equals(id)) {
+            id = id.concat(String.valueOf(nextCharacter));
+            nextCharacter = readChar(pushbackReader);
+            while (nextCharacter != ' ') {
+                id = id.concat(String.valueOf(nextCharacter));
+                nextCharacter = readChar(pushbackReader);
+            }
+
+            Tipo tipo = Tipo.getTipoById(id);
+            return new Token(tipo, id, linha, coluna);
+        }
+
         while (Character.isLetter(nextCharacter)
                 || UNDER_LINE_SYMBOL.equals(String.valueOf(nextCharacter))
-                || Character.isDigit(nextCharacter)
-                || ".".equals(String.valueOf(nextCharacter))) {
+                || Character.isDigit(nextCharacter)) {
             id = id.concat(String.valueOf(nextCharacter));
             nextCharacter = readChar(pushbackReader);
         }
