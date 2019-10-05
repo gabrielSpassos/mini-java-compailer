@@ -46,6 +46,7 @@ public enum Tipo {
     SBOOLEAN_TRUE("true"),
     SBOOLEAN_FALSE("false"),
     SIGUALDADE("=="),
+    SSYSTEM("System"),
     SDIFERENCA("!=");
 
     Tipo(String id) {

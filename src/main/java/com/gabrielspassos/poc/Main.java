@@ -18,7 +18,6 @@ public class Main {
             System.out.println("Número de tokens: " + tokens.size());
             System.out.println("\nTokens:\n");
             tokens.forEach(System.out::println);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
