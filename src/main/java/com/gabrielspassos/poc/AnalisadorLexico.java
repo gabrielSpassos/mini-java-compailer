@@ -41,7 +41,6 @@ public class AnalisadorLexico {
                 }
             }
         } while (character != '@');
-
         return tokens;
     }
 
@@ -110,7 +109,8 @@ public class AnalisadorLexico {
         char nextCharacter = readChar(pushbackReader);
         while (Character.isLetter(nextCharacter)
                 || UNDER_LINE_SYMBOL.equals(String.valueOf(nextCharacter))
-                || Character.isDigit(nextCharacter)) {
+                || Character.isDigit(nextCharacter)
+                || ".".equals(String.valueOf(nextCharacter))) {
             id = id.concat(String.valueOf(nextCharacter));
             nextCharacter = readChar(pushbackReader);
         }
@@ -122,10 +122,12 @@ public class AnalisadorLexico {
     private Token handlePlusAndMinusOperation(char character, PushbackReader pushbackReader, int coluna) throws IOException {
         String operator = String.valueOf(character);
         char nextCharacter = readChar(pushbackReader);
+
         if (Character.isSpaceChar(nextCharacter)) {
             Tipo tipo = Tipo.getTipoById(operator);
             return new Token(tipo, operator, linha, coluna);
         }
+
         Token token = handleDigit(nextCharacter, pushbackReader, coluna);
         token.setLexema(operator.concat(token.getLexema()));
         return token;
@@ -153,6 +155,7 @@ public class AnalisadorLexico {
             char nextCharacter = readChar(pushbackReader);
             String ch = specialCharacter.concat(String.valueOf(nextCharacter));
             Tipo tipoById = Tipo.getTipoById(ch);
+
             if (isComposeType(tipoById)) {
                 return new Token(tipoById, ch, linha, coluna);
             }

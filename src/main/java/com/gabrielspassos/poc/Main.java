@@ -14,9 +14,9 @@ public class Main {
         try {
             System.out.println("Analisando léxicamente o arquivo " + fileName);
             List<Token> tokens = analisadorLexico.analise(fileName);
-
+            System.out.println("Busca por tokens finalizada");
             System.out.println("Número de tokens: " + tokens.size());
-
+            System.out.println("\nTokens:\n");
             tokens.forEach(System.out::println);
 
         } catch (Exception e) {
