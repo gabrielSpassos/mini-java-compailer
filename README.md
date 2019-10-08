@@ -2,13 +2,13 @@
 
 A abordagem escolhida para a realização do projeto foi a linguagem Minijava. O trabalho foi realizado pelos seguintes alunos:
 
-- [Eduardo Amroginski] (https://github.com/CrazyAMK)
+- [Eduardo Amroginski](https://github.com/CrazyAMK)
 - Matrícula: 2015111384
 
 - [Gabriel Passos](https://github.com/gabrielSpassos)
 - Matrícula: 201514565
 
-- [Matheus Schonarth] (https://github.com/mfschonarth)
+- [Matheus Schonarth](https://github.com/mfschonarth)
 - Matrícula: 201513395
 
 Dentre os principais arquivos do trabalho, pode-se citar:
