@@ -1,6 +1,6 @@
 # Mini Java Compiler - Compiladores Grau A
 
-A abordagem escolhida para a realização do projeto foi a linguagem Minijava. O trabalho foi realizado pelos seguintes alunos:
+Projeto para realizar a compilação de um arquivo escrito na linguagem [Minijava](http://www.cambridge.org/us/features/052182060X/). O trabalho foi realizado pelos seguintes alunos:
 
 - [Eduardo Amroginski](https://github.com/CrazyAMK)
 - Matrícula: 2015111384
