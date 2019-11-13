@@ -8,10 +8,9 @@ public class Main {
     private static final String DEFAULT_FILE = "fatorial.java";
 
     public static void main(String[] args) {
-        AnalisadorLexico analisadorLexico = new AnalisadorLexico();
-        String fileName = getFileName(args);
-
         try {
+            String fileName = getFileName(args);
+            AnalisadorLexico analisadorLexico = new AnalisadorLexico(fileName);
             System.out.println("Analisando léxicamente o arquivo " + fileName);
             List<Token> tokens = analisadorLexico.analise(fileName);
             System.out.println("Busca por tokens finalizada");

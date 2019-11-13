@@ -10,6 +10,7 @@ public class AnalisadorLexico {
     private static final String ENCODING = "US-ASCII";
     private int linha = 1;
     private int coluna = 0;
+    private List<Token> tokens;
 
     private static final List<String> CHARS_TO_IGNORE =
             Arrays.asList(" ", "\n", "\r", "\t", "@");
@@ -21,6 +22,19 @@ public class AnalisadorLexico {
     private static final String EQUALS_SYMBOL = "=";
     private static final String NEGATE_SYMBOL = "!";
     private static final String ASTERISK_SYMBOL = "*";
+
+    public AnalisadorLexico(String codeFileName) throws IOException {
+        this.tokens = analise(codeFileName);
+    }
+
+    public Token getToken() {
+        if(tokens.size() > 0) {
+            Token token = tokens.get(0);
+            tokens.remove(0);
+            return token;
+        }
+        return null;
+    }
 
     public List<Token> analise(String codeFileName) throws IOException {
         PushbackReader pushbackReader = getPushbackReader(codeFileName);
