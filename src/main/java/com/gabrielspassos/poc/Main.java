@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Main {
 
-    private static final String DEFAULT_FILE = "fatorial.java";
+    private static final String DEFAULT_FILE = "sum.java";
 
     public static void main(String[] args) {
         try {
