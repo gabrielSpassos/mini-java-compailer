@@ -15,7 +15,7 @@ public abstract class Parser {
 
     public abstract Boolean parse();
 
-    public void getToken() {
+    public void fetchToken() {
         token = analisadorLexico.getToken();
     }
 

@@ -14,7 +14,7 @@ public class Main {
             AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico(fileName);
             System.out.println("Analisando léxicamente o arquivo " + fileName);
             List<Token> tokens = analisadorLexico.analise(fileName);
-            System.out.println(analisadorSintatico.parse());
+            System.out.println("Analise Sintatica: " + analisadorSintatico.parse());
             System.out.println("Busca por tokens finalizada");
             System.out.println("Número de tokens: " + tokens.size());
             System.out.println("\nTokens:\n");
