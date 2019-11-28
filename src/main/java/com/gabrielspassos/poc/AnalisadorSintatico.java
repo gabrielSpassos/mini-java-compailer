@@ -65,7 +65,6 @@ public class AnalisadorSintatico extends Parser {
                                                 if (Tipo.SABRE_CHAVES.equals(token.getTipo())) {
                                                     fetchToken();
                                                     if(analisaBloco()) {
-                                                        fetchToken();
                                                         if (Tipo.SFECHA_CHAVES.equals(token.getTipo())) {
                                                             return true;
                                                         }
@@ -105,7 +104,7 @@ public class AnalisadorSintatico extends Parser {
             return true;
         }
 
-        return false;
+        return true;
     }
 
     private Boolean analisaDeclaracaoVariavel() {
@@ -119,7 +118,8 @@ public class AnalisadorSintatico extends Parser {
                     if (Tipo.SNUMERO.equals(token.getTipo()) || Tipo.SBOOLEAN_TRUE.equals(token.getTipo()) || Tipo.SBOOLEAN_FALSE.equals(token.getTipo())) {
                         fetchToken();
                         if (Tipo.SPONTO_E_VIRGULA.equals(token.getTipo())) {
-                            return true;
+                            fetchToken();
+                            return analisaBloco();
                         }
                         return false;
                     }
@@ -163,7 +163,8 @@ public class AnalisadorSintatico extends Parser {
                     if (Tipo.SFECHA_PARENTESIS.equals(token.getTipo())) {
                         fetchToken();
                         if (Tipo.SPONTO_E_VIRGULA.equals(token.getTipo())) {
-                            return true;
+                            fetchToken();
+                            return analisaBloco();
                         }
                         return false;
                     }
