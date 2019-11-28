@@ -99,10 +99,8 @@ public class AnalisadorSintatico extends Parser {
             return analisaDeclaracaoVariavel();
         } else if (Tipo.SESCREVA.equals(token.getTipo())) {
             return analisaEscreva();
-        } else if (Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
-            return true;
-        } else if (Tipo.SNUMERO.equals(token.getTipo())) {
-            return true;
+        } else if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo()) ) {
+            return analisaIdentificadorENumero();
         } else if (Tipo.SFECHA_CHAVES.equals(token.getTipo())) {
             fetchToken();
             return Tipo.SFECHA_CHAVES.equals(token.getTipo());
@@ -136,26 +134,36 @@ public class AnalisadorSintatico extends Parser {
         return false;
     }
 
-//    private Boolean analisaOperacao() {
-//        //todo: numero junto com identificador
-//        if (Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
-//            fetchToken();
-//            if (Tipo.SMAIS.equals(token.getTipo()) || Tipo.SMENOS.equals(token.getTipo())
-//                    || Tipo.SMULTIPLICACAO.equals(token.getTipo()) || Tipo.SDIVISAO.equals(token.getTipo())) {
-//                fetchToken();
-//                if (Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
-//                    fetchToken();
-//                    if (Tipo.SPONTO_E_VIRGULA.equals(token.getTipo())) {
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//                return false;
-//            }
-//            return false;
-//        }
-//        return false;
-//    }
+    private Boolean analisaIdentificadorENumero() {
+        //todo: numero junto com identificador
+        if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo())) {
+            fetchToken();
+            if (Tipo.SMAIS.equals(token.getTipo()) || Tipo.SMENOS.equals(token.getTipo())
+                    || Tipo.SMULTIPLICACAO.equals(token.getTipo()) || Tipo.SDIVISAO.equals(token.getTipo())) {
+                return analisaOperacao();
+            }
+            // apenas identificador ou numero
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean analisaOperacao() {
+        if (Tipo.SMAIS.equals(token.getTipo()) || Tipo.SMENOS.equals(token.getTipo())
+                || Tipo.SMULTIPLICACAO.equals(token.getTipo()) || Tipo.SDIVISAO.equals(token.getTipo())) {
+            fetchToken();
+            if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo())) {
+                fetchToken();
+                if (Tipo.SPONTO_E_VIRGULA.equals(token.getTipo())) {
+                    fetchToken();
+                    return analisaBloco();
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
+    }
 
     private Boolean analisaEscreva() {
         if(Tipo.SESCREVA.equals(token.getTipo())) {
@@ -163,7 +171,7 @@ public class AnalisadorSintatico extends Parser {
             if (Tipo.SABRE_PARENTESIS.equals(token.getTipo())) {
                 fetchToken();
                 if (analisaBloco()) {
-                    fetchToken();
+                    //fetchToken();
                     if (Tipo.SFECHA_PARENTESIS.equals(token.getTipo())) {
                         fetchToken();
                         if (Tipo.SPONTO_E_VIRGULA.equals(token.getTipo())) {
