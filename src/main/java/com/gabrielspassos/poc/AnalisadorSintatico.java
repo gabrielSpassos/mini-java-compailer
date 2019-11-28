@@ -135,7 +135,6 @@ public class AnalisadorSintatico extends Parser {
     }
 
     private Boolean analisaIdentificadorENumero() {
-        //todo: numero junto com identificador
         if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo())) {
             fetchToken();
             if (Tipo.SMAIS.equals(token.getTipo()) || Tipo.SMENOS.equals(token.getTipo())
@@ -158,7 +157,7 @@ public class AnalisadorSintatico extends Parser {
                     fetchToken();
                     return analisaBloco();
                 }
-                return false;
+                return true;
             }
             return false;
         }
