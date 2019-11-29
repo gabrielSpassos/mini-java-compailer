@@ -22,6 +22,7 @@ public class AnalisadorSintatico extends Parser {
         if(Tipo.SCLASS.equals(token.getTipo())) {
             fetchToken();
             if(Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
+                insereIdentificadorNaTabela();
                 fetchToken();
                 if (Tipo.SABRE_CHAVES.equals(token.getTipo())){
                     fetchToken();
@@ -58,6 +59,7 @@ public class AnalisadorSintatico extends Parser {
                                     if (Tipo.SFECHA_COLCHETES.equals(token.getTipo())) {
                                         fetchToken();
                                         if (Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
+                                            insereIdentificadorNaTabela();
                                             fetchToken();
                                             if (Tipo.SFECHA_PARENTESIS.equals(token.getTipo())) {
                                                 fetchToken();
@@ -114,6 +116,7 @@ public class AnalisadorSintatico extends Parser {
         if(Tipo.SINTEIRO.equals(token.getTipo()) || Tipo.SBOOLEAN.equals(token.getTipo())) {
             fetchToken();
             if (Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
+                insereIdentificadorNaTabela();
                 fetchToken();
                 if (Tipo.SATRIBUICAO.equals(token.getTipo())) {
                     fetchToken();
@@ -136,6 +139,7 @@ public class AnalisadorSintatico extends Parser {
 
     private Boolean analisaIdentificadorENumero() {
         if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo())) {
+            insereIdentificadorNaTabela();
             fetchToken();
             if (Tipo.SMAIS.equals(token.getTipo()) || Tipo.SMENOS.equals(token.getTipo())
                     || Tipo.SMULTIPLICACAO.equals(token.getTipo()) || Tipo.SDIVISAO.equals(token.getTipo())) {
@@ -152,6 +156,7 @@ public class AnalisadorSintatico extends Parser {
                 || Tipo.SMULTIPLICACAO.equals(token.getTipo()) || Tipo.SDIVISAO.equals(token.getTipo())) {
             fetchToken();
             if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo())) {
+                insereIdentificadorNaTabela();
                 fetchToken();
                 if (Tipo.SPONTO_E_VIRGULA.equals(token.getTipo())) {
                     fetchToken();
@@ -186,5 +191,11 @@ public class AnalisadorSintatico extends Parser {
             return false;
         }
         return false;
+    }
+
+    private void insereIdentificadorNaTabela() {
+        if(Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
+            tabelaSimbolos.getTabela().put(token.getLexema(), token);
+        }
     }
 }
