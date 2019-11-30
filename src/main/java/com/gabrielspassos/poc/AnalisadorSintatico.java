@@ -119,6 +119,7 @@ public class AnalisadorSintatico extends Parser {
             return Tipo.SFECHA_CHAVES.equals(token.getTipo());
         }
 
+        error("Bloco invalido");
         return false;
     }
 
@@ -138,14 +139,19 @@ public class AnalisadorSintatico extends Parser {
                             fetchToken();
                             return analisaBloco();
                         }
+                        error("Faltando ponto virgula");
                         return false;
                     }
+                    error("Faltando valor");
                     return false;
                 }
+                error("Faltando operador de atribuição");
                 return false;
             }
+            error("Faltando identificador da variavel");
             return false;
         }
+        error("Faltando tipo da variavel");
         return false;
     }
 
@@ -160,6 +166,7 @@ public class AnalisadorSintatico extends Parser {
             // apenas identificador ou numero
             return true;
         }
+        error("Faltando valor/identificador");
         return false;
     }
 
@@ -178,8 +185,10 @@ public class AnalisadorSintatico extends Parser {
                 }
                 return true;
             }
+            error("Faltando valor/identificador");
             return false;
         }
+        error("Faltando operador aritmético");
         return false;
     }
 
@@ -196,14 +205,18 @@ public class AnalisadorSintatico extends Parser {
                             fetchToken();
                             return analisaBloco();
                         }
+                        error("Faltando ponto virgula");
                         return false;
                     }
+                    error("Faltando fechar parenteses");
                     return false;
                 }
                 return false;
             }
+            error("Faltando abertura de parenteses");
             return false;
         }
+        error("Comando de print invalido");
         return false;
     }
 
