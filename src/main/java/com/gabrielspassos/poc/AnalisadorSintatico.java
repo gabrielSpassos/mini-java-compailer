@@ -25,14 +25,18 @@ public class AnalisadorSintatico extends Parser {
                         if (Tipo.SFECHA_CHAVES.equals(token.getTipo())) {
                             return true;
                         }
+                        error("Faltando fechamento das chaves");
                         return false;
                     }
                     return false;
                 }
+                error("Faltando abertura de chaves");
                 return false;
             }
+            error("Faltando declaração do nome da classe");
             return false;
         }
+        error("Faltando declaração de classe");
         return false;
     }
 
@@ -64,30 +68,42 @@ public class AnalisadorSintatico extends Parser {
                                                         if (Tipo.SFECHA_CHAVES.equals(token.getTipo())) {
                                                             return true;
                                                         }
+                                                        error("Faltando fechar chaves");
                                                         return false;
                                                     }
                                                     return false;
                                                 }
+                                                error("Faltando abertura de chaves");
                                                 return false;
                                             }
+                                            error("Faltando fechar parenteses");
                                             return false;
                                         }
+                                        error("Faltando nomenclatura de argumentos");
                                         return false;
                                     }
+                                    error("Faltando fechar conchetes");
                                     return false;
                                 }
+                                error("Faltando abertura de conchetes");
                                 return false;
                             }
+                            error("Faltando declaração de variavel String");
                             return false;
                         }
+                        error("Faltando abertura de parenteses");
                         return false;
                     }
+                    error("Faltando declaração de método main");
                     return false;
                 }
+                error("Faltando declaração de método void");
                 return false;
             }
+            error("Faltando declaração de método static");
             return false;
         }
+        error("Faltando declaração de método public");
         return false;
     }
 
