@@ -2,30 +2,18 @@ package main.java.com.gabrielspassos.poc;
 
 public class Token {
 
-    private Tipo tipo;
-    private String lexema;
-    private String escopo;
-    private Integer linha;
-    private Integer coluna;
-
-    public Token(Token oldToken, String escopo) {
-        this.tipo = oldToken.tipo;
-        this.lexema = oldToken.lexema;
-        this.escopo = escopo;
-        this.linha = oldToken.linha;
-        this.coluna = oldToken.coluna;
-    }
+    public Tipo tipo;
+    public String lexema;
+    public String escopo;
+    public Integer linha;
+    public String tipagem;
+    public Integer coluna;
 
     public Token(Tipo tipo, String lexema, Integer linha, Integer coluna) {
         this.tipo = tipo;
         this.lexema = lexema;
         this.linha = linha;
         this.coluna = coluna;
-    }
-
-    public Token(Tipo tipo, String lexema) {
-        this.tipo = tipo;
-        this.lexema = lexema;
     }
 
     public Tipo getTipo() {
@@ -68,8 +56,16 @@ public class Token {
         this.escopo = escopo;
     }
 
+    public String getTipagem() {
+        return tipagem;
+    }
+
+    public void setTipagem(String tipagem) {
+        this.tipagem = tipagem;
+    }
+
     @Override
     public String toString() {
-        return String.format("Tipo: %s, Lexama: %s, Linha: %s, Coluna: %s, Escopo: %s", tipo, lexema, linha, coluna, escopo);
+        return String.format("Tipo: %s, Lexama: %s, Linha: %s, Coluna: %s, Escopo: %s, Tipagem: %s", tipo, lexema, linha, coluna, escopo, tipagem);
     }
 }

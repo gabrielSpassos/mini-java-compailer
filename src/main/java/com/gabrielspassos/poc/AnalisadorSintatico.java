@@ -8,12 +8,7 @@ public class AnalisadorSintatico extends Parser {
         super(codeFileName);
     }
 
-    @Override
-    public Boolean parse() {
-        return analisaMiniJava();
-    }
-
-    private Boolean analisaMiniJava() {
+    public Boolean analisaMiniJava() {
         return analisaClass();
     }
 
@@ -22,7 +17,7 @@ public class AnalisadorSintatico extends Parser {
         if(Tipo.SCLASS.equals(token.getTipo())) {
             fetchToken();
             if(Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
-                insereIdentificadorNaTabela();
+                insereIdentificadorNaTabela("class-name");
                 fetchToken();
                 if (Tipo.SABRE_CHAVES.equals(token.getTipo())){
                     fetchToken();
@@ -59,7 +54,7 @@ public class AnalisadorSintatico extends Parser {
                                     if (Tipo.SFECHA_COLCHETES.equals(token.getTipo())) {
                                         fetchToken();
                                         if (Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
-                                            insereIdentificadorNaTabela();
+                                            insereIdentificadorNaTabela("args");
                                             fetchToken();
                                             if (Tipo.SFECHA_PARENTESIS.equals(token.getTipo())) {
                                                 fetchToken();
@@ -114,9 +109,10 @@ public class AnalisadorSintatico extends Parser {
     private Boolean analisaDeclaracaoVariavel() {
         // todo: declarar variavel sem atribuir
         if(Tipo.SINTEIRO.equals(token.getTipo()) || Tipo.SBOOLEAN.equals(token.getTipo())) {
+            String tipagemVariavel = token.getLexema();
             fetchToken();
             if (Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
-                insereIdentificadorNaTabela();
+                insereIdentificadorNaTabela(tipagemVariavel);
                 fetchToken();
                 if (Tipo.SATRIBUICAO.equals(token.getTipo())) {
                     fetchToken();
@@ -139,11 +135,11 @@ public class AnalisadorSintatico extends Parser {
 
     private Boolean analisaIdentificadorENumero() {
         if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo())) {
-            insereIdentificadorNaTabela();
+            String operando1 = token.getLexema();
             fetchToken();
             if (Tipo.SMAIS.equals(token.getTipo()) || Tipo.SMENOS.equals(token.getTipo())
                     || Tipo.SMULTIPLICACAO.equals(token.getTipo()) || Tipo.SDIVISAO.equals(token.getTipo())) {
-                return analisaOperacao();
+                return analisaOperacao(operando1);
             }
             // apenas identificador ou numero
             return true;
@@ -151,13 +147,15 @@ public class AnalisadorSintatico extends Parser {
         return false;
     }
 
-    private Boolean analisaOperacao() {
+    private Boolean analisaOperacao(String operando1) {
         if (Tipo.SMAIS.equals(token.getTipo()) || Tipo.SMENOS.equals(token.getTipo())
                 || Tipo.SMULTIPLICACAO.equals(token.getTipo()) || Tipo.SDIVISAO.equals(token.getTipo())) {
+            Token operacao = token;
             fetchToken();
             if (Tipo.SIDENTIFICADOR.equals(token.getTipo()) || Tipo.SNUMERO.equals(token.getTipo())) {
-                insereIdentificadorNaTabela();
+                String operando2 = token.getLexema();
                 fetchToken();
+                analisadorSemantico.validaOperacao(operando1, operacao, operando2, tabelaSimbolos);
                 if (Tipo.SPONTO_E_VIRGULA.equals(token.getTipo())) {
                     fetchToken();
                     return analisaBloco();
@@ -193,8 +191,9 @@ public class AnalisadorSintatico extends Parser {
         return false;
     }
 
-    private void insereIdentificadorNaTabela() {
+    private void insereIdentificadorNaTabela(String tipagem) {
         if(Tipo.SIDENTIFICADOR.equals(token.getTipo())) {
+            token.setTipagem(tipagem);
             tabelaSimbolos.getTabela().put(token.getLexema(), token);
         }
     }

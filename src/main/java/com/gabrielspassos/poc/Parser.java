@@ -6,14 +6,14 @@ public abstract class Parser {
 
     public TabelaSimbolos tabelaSimbolos;
     public AnalisadorLexico analisadorLexico;
+    public AnalisadorSemantico analisadorSemantico;
     public Token token;
 
     public Parser(String codeFileName) throws IOException {
         this.tabelaSimbolos = new TabelaSimbolos();
         this.analisadorLexico = new AnalisadorLexico(codeFileName);
+        this.analisadorSemantico = new AnalisadorSemantico();
     }
-
-    public abstract Boolean parse();
 
     public void fetchToken() {
         token = analisadorLexico.getToken();

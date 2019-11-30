@@ -6,8 +6,10 @@ class Add {
         int a = 2;
         int b = 4;
         System.out.println(x - 30);
+        //System.out.println(y / 0);
         System.out.println(y / 5);
         System.out.println(z);
+        //System.out.println(z / 2);
         System.out.println(a + 2);
         System.out.println(b * 3);
     }

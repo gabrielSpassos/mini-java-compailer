@@ -12,7 +12,7 @@ public class Main {
             String fileName = getFileName(args);
             AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico(fileName);
             System.out.println("Analisando o arquivo " + fileName);
-            System.out.println("Analise Sintatica: " + analisadorSintatico.parse());
+            System.out.println("Analise Sintatica: " + analisadorSintatico.analisaMiniJava());
         } catch (Exception e) {
             e.printStackTrace();
         }
