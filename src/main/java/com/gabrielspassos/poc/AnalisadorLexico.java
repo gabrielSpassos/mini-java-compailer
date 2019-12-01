@@ -22,6 +22,7 @@ public class AnalisadorLexico {
     private static final String EQUALS_SYMBOL = "=";
     private static final String NEGATE_SYMBOL = "!";
     private static final String ASTERISK_SYMBOL = "*";
+    private static final String NEW_LINE = "\n";
 
     public AnalisadorLexico(String codeFileName) throws IOException {
         this.tokens = analise(codeFileName);
@@ -203,9 +204,11 @@ public class AnalisadorLexico {
     private Token handleBar(char character, PushbackReader pushbackReader, int coluna) throws IOException {
         char nextCharacter = readChar(pushbackReader);
 
+
+
         if(BAR_SYMBOL.equals(String.valueOf(nextCharacter))){
             nextCharacter = readChar(pushbackReader);
-            while (!System.lineSeparator().equals(String.valueOf(nextCharacter))) {
+            while (!NEW_LINE.equals(String.valueOf(nextCharacter))) {
                 nextCharacter = readChar(pushbackReader);
             }
             return null;
