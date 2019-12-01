@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Gramatica.g4</title>
+<style type="text/css">
+body { 
+  color: #000;
+  font-family: sans-serif;
+  font-size: 12px;
+  margin: 20px 5px 10px 20px;
+}
+/* resets */
+ul {
+  list-style: none;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+img {
+  border: 0;
+}
+.clear {
+  clear: both;
+}
+.container {
+  position: relative;
+}
+/* Grammar name */
+h1 {
+  font-size: 20px;
+}
+/*Grammar documentation*/
+.gdoc {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+#index {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  overflow: auto;
+}
+#index h2 {
+  margin: 0;
+}
+#index ol {
+  padding-left: 30px;
+  list-style-type: square;
+  color: #364559;
+}
+#index ol li {
+  margin: 2px 0;
+}
+#index ol li a {
+  color: #366199;
+  font-family: monospace;
+}
+#rules {
+  margin-left: 210px;
+  padding-left: 20px;
+  border-left: 1px solid #AAA;
+}
+.rule {
+  margin-bottom: 30px;
+}
+/* Rule name*/
+.rule h3 {
+  color: #364559;
+  background-color: #DADFE6;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px 5px;
+  border-bottom: 1px solid #828B99;
+}
+.rule h3 a.topLink {
+  font-family: sans-serif;
+  font-size: 10px;
+  color: #000;
+  margin-left: 20px;
+}
+.rule h3, .rule .ebnf div {
+  font-family: monospace;
+}
+/* Sections: ebnf, railroad*/
+.doc, .ebnf, .railroad {
+  padding-left: 20px;
+}
+.doc h4, .ebnf h4, .railroad h4 {
+  font-size: 12px;
+  margin: 15px 0 10px -20px;
+}
+.ebnf div {
+  background-color: #F7F7F7;
+  border-top: 1px solid #E8E8E8;
+  border-bottom: 1px solid #E8E8E8;
+  padding: 10px 5px;
+}
+.ebnf div .literal {
+  color: #0000FF;
+}
+.ebnf div .keyword {
+  color: #7F0055;
+  font-weight: bold;
+}
+.ebnf div .rule {
+  color: #004084;
+  font-weight: bold;
+}
+.ebnf div .token {
+  font-style:italic;
+}
+.railroad img {
+  display: block;
+}
+footer {
+  float: right;
+}
+</style>
+</head>
+<body>
+<h1><a href="Gramatica.g4.html" name="top">Gramatica</a></h1>
+<p class="gdoc"></p>
+<div class="container">
+<div id="index">
+<h2>Rules</h2>
+<ol>
+  <li><a href="#prog">prog</a></li>
+  <li><a href="#bloco">bloco</a></li>
+  <li><a href="#etDeclaracao_Variaveis">etDeclaracao_Variaveis</a></li>
+  <li><a href="#declara_procedimento">declara_procedimento</a></li>
+  <li><a href="#declara_funcao">declara_funcao</a></li>
+  <li><a href="#declaracao_var">declaracao_var</a></li>
+  <li><a href="#tipo">tipo</a></li>
+  <li><a href="#etsub_rotina">etsub_rotina</a></li>
+  <li><a href="#comandos">comandos</a></li>
+  <li><a href="#comando">comando</a></li>
+  <li><a href="#atribuicao_chprocedimento">atribuicao_chprocedimento</a></li>
+  <li><a href="#comando_atribuicao">comando_atribuicao</a></li>
+  <li><a href="#chamada_procedimento">chamada_procedimento</a></li>
+  <li><a href="#comando_condicional">comando_condicional</a></li>
+  <li><a href="#comando_enquanto">comando_enquanto</a></li>
+  <li><a href="#comando_leia">comando_leia</a></li>
+  <li><a href="#comando_escreva">comando_escreva</a></li>
+  <li><a href="#expressao">expressao</a></li>
+  <li><a href="#operador_relacional">operador_relacional</a></li>
+  <li><a href="#expressao_simples">expressao_simples</a></li>
+  <li><a href="#termo">termo</a></li>
+  <li><a href="#fator">fator</a></li>
+  <li><a href="#variavel">variavel</a></li>
+  <li><a href="#chamada_funcao">chamada_funcao</a></li>
+  <li><a href="#identificador">identificador</a></li>
+  <li><a href="#numero">numero</a></li>
+  <li><a href="#T_PROGRAMA">T_PROGRAMA</a></li>
+  <li><a href="#T_INICIOCOMANDO">T_INICIOCOMANDO</a></li>
+  <li><a href="#T_ASPAS">T_ASPAS</a></li>
+  <li><a href="#T_INTEIRO">T_INTEIRO</a></li>
+  <li><a href="#T_BOOLV">T_BOOLV</a></li>
+  <li><a href="#T_BOOLF">T_BOOLF</a></li>
+  <li><a href="#T_NEGACAO">T_NEGACAO</a></li>
+  <li><a href="#T_LEIA">T_LEIA</a></li>
+  <li><a href="#T_ENQUANTO">T_ENQUANTO</a></li>
+  <li><a href="#T_FACA">T_FACA</a></li>
+  <li><a href="#T_DIFERENCA">T_DIFERENCA</a></li>
+  <li><a href="#T_IGUAL">T_IGUAL</a></li>
+  <li><a href="#T_MENOR">T_MENOR</a></li>
+  <li><a href="#T_MAIOR">T_MAIOR</a></li>
+  <li><a href="#T_MAIORIGUAL">T_MAIORIGUAL</a></li>
+  <li><a href="#T_MULT">T_MULT</a></li>
+  <li><a href="#T_DIV">T_DIV</a></li>
+  <li><a href="#T_OU">T_OU</a></li>
+  <li><a href="#T_E">T_E</a></li>
+  <li><a href="#T_MAIS">T_MAIS</a></li>
+  <li><a href="#T_MENOS">T_MENOS</a></li>
+  <li><a href="#T_PROCEDIMENTO">T_PROCEDIMENTO</a></li>
+  <li><a href="#T_SE">T_SE</a></li>
+  <li><a href="#T_ENTAO">T_ENTAO</a></li>
+  <li><a href="#T_SENAO">T_SENAO</a></li>
+  <li><a href="#T_ATRIBUICAO">T_ATRIBUICAO</a></li>
+  <li><a href="#T_FUNCAO">T_FUNCAO</a></li>
+  <li><a href="#T_BOOLEANO">T_BOOLEANO</a></li>
+  <li><a href="#T_FIMCOMANDO">T_FIMCOMANDO</a></li>
+  <li><a href="#T_PONTOEVIRGULA">T_PONTOEVIRGULA</a></li>
+  <li><a href="#T_FIM">T_FIM</a></li>
+  <li><a href="#T_VAR">T_VAR</a></li>
+  <li><a href="#T_VIRGULA">T_VIRGULA</a></li>
+  <li><a href="#T_DOISPONTOS">T_DOISPONTOS</a></li>
+  <li><a href="#T_ABREPARENTESES">T_ABREPARENTESES</a></li>
+  <li><a href="#T_FECHAPARENTESES">T_FECHAPARENTESES</a></li>
+  <li><a href="#T_ESCREVA">T_ESCREVA</a></li>
+  <li><a href="#T_UNDERLINE">T_UNDERLINE</a></li>
+  <li><a href="#T_DIGITO">T_DIGITO</a></li>
+  <li><a href="#T_LETRA">T_LETRA</a></li>
+  <li><a href="#WS">WS</a></li>
+  <li><a href="#COMMENT">COMMENT</a></li>
+</ol>
+</div>
+
+<div id="rules">
+<ul>
+  <li class="rule" id="prog">
+  <h3>prog <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">prog</span> :  <a href="#T_PROGRAMA" class="token">T_PROGRAMA</a> <a href="#identificador" class="rule">identificador</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <a href="#bloco" class="rule">bloco</a> <a href="#T_FIM" class="token">T_FIM</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/prog.png" />
+  </div>
+  </li>
+  <li class="rule" id="bloco">
+  <h3>bloco <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">bloco</span> :  <span class="operator">(</span> <a href="#etDeclaracao_Variaveis" class="rule">etDeclaracao_Variaveis</a> <span class="operator">)</span><span class="operator">*</span> <a href="#comandos" class="rule">comandos</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/bloco.png" />
+  </div>
+  </li>
+  <li class="rule" id="etDeclaracao_Variaveis">
+  <h3>etDeclaracao_Variaveis <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">etDeclaracao_Variaveis</span> :  <a href="#T_VAR" class="token">T_VAR</a> <a href="#declaracao_var" class="rule">declaracao_var</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <span class="operator">(</span> <a href="#declaracao_var" class="rule">declaracao_var</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <span class="operator">)</span><span class="operator">*</span> <span class="operator">(</span><a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a><span class="operator">)</span><span class="operator">?</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/etDeclaracao_Variaveis.png" />
+  </div>
+  </li>
+  <li class="rule" id="declara_procedimento">
+  <h3>declara_procedimento <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">declara_procedimento</span> :  <a href="#T_PROCEDIMENTO" class="token">T_PROCEDIMENTO</a> <a href="#identificador" class="rule">identificador</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <a href="#bloco" class="rule">bloco</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/declara_procedimento.png" />
+  </div>
+  </li>
+  <li class="rule" id="declara_funcao">
+  <h3>declara_funcao <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">declara_funcao</span> :  <a href="#T_FUNCAO" class="token">T_FUNCAO</a> <a href="#identificador" class="rule">identificador</a> <a href="#T_DOISPONTOS" class="token">T_DOISPONTOS</a> <a href="#tipo" class="rule">tipo</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <a href="#bloco" class="rule">bloco</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/declara_funcao.png" />
+  </div>
+  </li>
+  <li class="rule" id="declaracao_var">
+  <h3>declaracao_var <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">declaracao_var</span> :  <a href="#identificador" class="rule">identificador</a> <span class="operator">{mapaVar.put(LT.(0).getText(), LT(0).getText() );}</span> <span class="operator">(</span><a href="#T_VIRGULA" class="token">T_VIRGULA</a> <a href="#identificador" class="rule">identificador</a> <span class="operator">{mapaVar.put(LT.(0).getText(), LT(0).getText() );}</span> <span class="operator">)</span><span class="operator">*</span> <a href="#T_DOISPONTOS" class="token">T_DOISPONTOS</a> <a href="#tipo" class="rule">tipo</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/declaracao_var.png" />
+  </div>
+  </li>
+  <li class="rule" id="tipo">
+  <h3>tipo <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">tipo</span> :  <span class="operator">(</span> <a href="#T_INTEIRO" class="token">T_INTEIRO</a> <span class="operator">|</span> <a href="#T_BOOLEANO" class="token">T_BOOLEANO</a> <span class="operator">)</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/tipo.png" />
+  </div>
+  </li>
+  <li class="rule" id="etsub_rotina">
+  <h3>etsub_rotina <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">etsub_rotina</span> :  <span class="operator">(</span><a href="#declara_procedimento" class="rule">declara_procedimento</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <span class="operator">|</span> <a href="#declara_funcao" class="rule">declara_funcao</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <span class="operator">)</span> <span class="operator">(</span><a href="#declara_procedimento" class="rule">declara_procedimento</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <span class="operator">|</span> <a href="#declara_funcao" class="rule">declara_funcao</a> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <span class="operator">)</span><span class="operator">*</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/etsub_rotina.png" />
+  </div>
+  </li>
+  <li class="rule" id="comandos">
+  <h3>comandos <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">comandos</span> :  <a href="#T_INICIOCOMANDO" class="token">T_INICIOCOMANDO</a> <a href="#comando" class="rule">comando</a> <span class="operator">(</span> <a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a> <a href="#comando" class="rule">comando</a> <span class="operator">)</span><span class="operator">*</span> <span class="operator">(</span><a href="#T_PONTOEVIRGULA" class="token">T_PONTOEVIRGULA</a><span class="operator">)</span><span class="operator">?</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/comandos.png" />
+  </div>
+  </li>
+  <li class="rule" id="comando">
+  <h3>comando <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">comando</span> :  <span class="operator">(</span> <a href="#comando_escreva" class="rule">comando_escreva</a> <span class="operator">|</span> <a href="#comando_condicional" class="rule">comando_condicional</a> <span class="operator">|</span> <a href="#comando_enquanto" class="rule">comando_enquanto</a> <span class="operator">|</span> <a href="#comando_leia" class="rule">comando_leia</a> <span class="operator">|</span> <a href="#atribuicao_chprocedimento" class="rule">atribuicao_chprocedimento</a> <span class="operator">|</span> <a href="#comandos" class="rule">comandos</a><span class="operator">)</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/comando.png" />
+  </div>
+  </li>
+  <li class="rule" id="atribuicao_chprocedimento">
+  <h3>atribuicao_chprocedimento <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">atribuicao_chprocedimento</span> :  <span class="operator">(</span> <a href="#comando_atribuicao" class="rule">comando_atribuicao</a> <span class="operator">|</span> <a href="#chamada_procedimento" class="rule">chamada_procedimento</a><span class="operator">)</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/atribuicao_chprocedimento.png" />
+  </div>
+  </li>
+  <li class="rule" id="comando_atribuicao">
+  <h3>comando_atribuicao <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">comando_atribuicao</span> :  <a href="#identificador" class="rule">identificador</a> <a href="#T_ATRIBUICAO" class="token">T_ATRIBUICAO</a> <a href="#expressao" class="rule">expressao</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/comando_atribuicao.png" />
+  </div>
+  </li>
+  <li class="rule" id="chamada_procedimento">
+  <h3>chamada_procedimento <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">chamada_procedimento</span> :  <a href="#identificador" class="rule">identificador</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/chamada_procedimento.png" />
+  </div>
+  </li>
+  <li class="rule" id="comando_condicional">
+  <h3>comando_condicional <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">comando_condicional</span> :  <a href="#T_SE" class="token">T_SE</a> <a href="#expressao" class="rule">expressao</a> <a href="#T_ENTAO" class="token">T_ENTAO</a> <a href="#comando" class="rule">comando</a> <span class="operator">(</span> <a href="#T_SENAO" class="token">T_SENAO</a> <a href="#comando" class="rule">comando</a> <span class="operator">)</span><span class="operator">?</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/comando_condicional.png" />
+  </div>
+  </li>
+  <li class="rule" id="comando_enquanto">
+  <h3>comando_enquanto <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">comando_enquanto</span> :  <a href="#T_ENQUANTO" class="token">T_ENQUANTO</a> <a href="#expressao" class="rule">expressao</a> <a href="#T_FACA" class="token">T_FACA</a> <a href="#comando" class="rule">comando</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/comando_enquanto.png" />
+  </div>
+  </li>
+  <li class="rule" id="comando_leia">
+  <h3>comando_leia <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">comando_leia</span> :  <a href="#T_LEIA" class="token">T_LEIA</a> <a href="#T_ABREPARENTESES" class="token">T_ABREPARENTESES</a> <span class="operator">(</span><a href="#identificador" class="rule">identificador</a> <span class="operator">{ if (mapaVar.get(LT(0).getText()) == null){
+    													  		throw new RuntimeException("ID nao declarado")
+    													  }; }</span> <span class="operator">)</span> <a href="#T_FECHAPARENTESES" class="token">T_FECHAPARENTESES</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/comando_leia.png" />
+  </div>
+  </li>
+  <li class="rule" id="comando_escreva">
+  <h3>comando_escreva <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">comando_escreva</span> :  <a href="#T_ESCREVA" class="token">T_ESCREVA</a> <a href="#T_ABREPARENTESES" class="token">T_ABREPARENTESES</a> <span class="operator">(</span> <a href="#identificador" class="rule">identificador</a> <span class="operator">|</span> <a href="#numero" class="rule">numero</a> <span class="operator">|</span> <a href="#expressao_simples" class="rule">expressao_simples</a> <span class="operator">)</span> <a href="#T_FECHAPARENTESES" class="token">T_FECHAPARENTESES</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/comando_escreva.png" />
+  </div>
+  </li>
+  <li class="rule" id="expressao">
+  <h3>expressao <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">expressao</span> :  <a href="#expressao_simples" class="rule">expressao_simples</a> <span class="operator">(</span> <a href="#operador_relacional" class="rule">operador_relacional</a> <a href="#expressao_simples" class="rule">expressao_simples</a> <span class="operator">)</span><span class="operator">?</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/expressao.png" />
+  </div>
+  </li>
+  <li class="rule" id="operador_relacional">
+  <h3>operador_relacional <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">operador_relacional</span> :  <span class="operator">(</span> <a href="#T_DIFERENCA" class="token">T_DIFERENCA</a> <span class="operator">|</span> <a href="#T_IGUAL" class="token">T_IGUAL</a> <span class="operator">|</span> <a href="#T_MENOR" class="token">T_MENOR</a> <span class="operator">|</span> <a href="#T_MAIOR" class="token">T_MAIOR</a> <span class="operator">|</span> <a href="#T_MAIORIGUAL" class="token">T_MAIORIGUAL</a> <span class="operator">)</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/operador_relacional.png" />
+  </div>
+  </li>
+  <li class="rule" id="expressao_simples">
+  <h3>expressao_simples <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">expressao_simples</span> :  <span class="operator">(</span> <a href="#T_MAIS" class="token">T_MAIS</a> <span class="operator">|</span> <a href="#T_MENOS" class="token">T_MENOS</a> <span class="operator">)</span><span class="operator">?</span> <a href="#termo" class="rule">termo</a> <span class="operator">(</span> <span class="operator">(</span> <a href="#T_MAIS" class="token">T_MAIS</a> <span class="operator">|</span> <a href="#T_MENOS" class="token">T_MENOS</a> <span class="operator">|</span> <a href="#T_OU" class="token">T_OU</a> <span class="operator">)</span> <a href="#termo" class="rule">termo</a> <span class="operator">)</span><span class="operator">?</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/expressao_simples.png" />
+  </div>
+  </li>
+  <li class="rule" id="termo">
+  <h3>termo <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">termo</span> :  <a href="#fator" class="rule">fator</a> <span class="operator">(</span><span class="operator">(</span> <a href="#T_MULT" class="token">T_MULT</a> <span class="operator">|</span> <a href="#T_DIV" class="token">T_DIV</a> <span class="operator">|</span> <a href="#T_E" class="token">T_E</a> <span class="operator">)</span> <a href="#fator" class="rule">fator</a><span class="operator">)</span><span class="operator">*</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/termo.png" />
+  </div>
+  </li>
+  <li class="rule" id="fator">
+  <h3>fator <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">fator</span> :  <span class="operator">(</span><a href="#variavel" class="rule">variavel</a> <span class="operator">|</span> <a href="#numero" class="rule">numero</a> <span class="operator">|</span> <a href="#chamada_funcao" class="rule">chamada_funcao</a> <span class="operator">|</span> <a href="#T_ABREPARENTESES" class="token">T_ABREPARENTESES</a> <a href="#expressao" class="rule">expressao</a> <a href="#T_FECHAPARENTESES" class="token">T_FECHAPARENTESES</a> <span class="operator">|</span> <a href="#T_BOOLV" class="token">T_BOOLV</a> <span class="operator">|</span> <a href="#T_BOOLF" class="token">T_BOOLF</a> <span class="operator">|</span> <a href="#T_NEGACAO" class="token">T_NEGACAO</a> <a href="#fator" class="rule">fator</a><span class="operator">)</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/fator.png" />
+  </div>
+  </li>
+  <li class="rule" id="variavel">
+  <h3>variavel <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">variavel</span> :  <a href="#identificador" class="rule">identificador</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/variavel.png" />
+  </div>
+  </li>
+  <li class="rule" id="chamada_funcao">
+  <h3>chamada_funcao <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">chamada_funcao</span> :  <a href="#identificador" class="rule">identificador</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/chamada_funcao.png" />
+  </div>
+  </li>
+  <li class="rule" id="identificador">
+  <h3>identificador <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">identificador</span> :  <a href="#T_LETRA" class="token">T_LETRA</a> <span class="operator">(</span><a href="#T_LETRA" class="token">T_LETRA</a> <span class="operator">|</span> <a href="#T_DIGITO" class="token">T_DIGITO</a> <span class="operator">|</span> <a href="#T_UNDERLINE" class="token">T_UNDERLINE</a><span class="operator">)</span><span class="operator">*</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/identificador.png" />
+  </div>
+  </li>
+  <li class="rule" id="numero">
+  <h3>numero <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">numero</span> :  <a href="#T_DIGITO" class="token">T_DIGITO</a> <span class="operator">(</span><a href="#T_DIGITO" class="token">T_DIGITO</a><span class="operator">)</span><span class="operator">?</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/numero.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_PROGRAMA">
+  <h3>T_PROGRAMA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_PROGRAMA</span> :  <span class="literal">'programa'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_PROGRAMA.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_INICIOCOMANDO">
+  <h3>T_INICIOCOMANDO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_INICIOCOMANDO</span> :  <span class="literal">'inicio'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_INICIOCOMANDO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_ASPAS">
+  <h3>T_ASPAS <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_ASPAS</span> :  <span class="literal">'"'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_ASPAS.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_INTEIRO">
+  <h3>T_INTEIRO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_INTEIRO</span> :  <span class="literal">'inteiro'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_INTEIRO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_BOOLV">
+  <h3>T_BOOLV <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_BOOLV</span> :  <span class="literal">'verdadeiro'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_BOOLV.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_BOOLF">
+  <h3>T_BOOLF <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_BOOLF</span> :  <span class="literal">'falso'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_BOOLF.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_NEGACAO">
+  <h3>T_NEGACAO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_NEGACAO</span> :  <span class="literal">'nao'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_NEGACAO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_LEIA">
+  <h3>T_LEIA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_LEIA</span> :  <span class="literal">'leia'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_LEIA.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_ENQUANTO">
+  <h3>T_ENQUANTO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_ENQUANTO</span> :  <span class="literal">'enquanto'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_ENQUANTO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_FACA">
+  <h3>T_FACA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_FACA</span> :  <span class="literal">'faca'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_FACA.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_DIFERENCA">
+  <h3>T_DIFERENCA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_DIFERENCA</span> :  <span class="literal">'<>'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_DIFERENCA.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_IGUAL">
+  <h3>T_IGUAL <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_IGUAL</span> :  <span class="literal">'='</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_IGUAL.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_MENOR">
+  <h3>T_MENOR <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_MENOR</span> :  <span class="literal">'<'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_MENOR.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_MAIOR">
+  <h3>T_MAIOR <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_MAIOR</span> :  <span class="literal">'>'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_MAIOR.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_MAIORIGUAL">
+  <h3>T_MAIORIGUAL <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_MAIORIGUAL</span> :  <span class="literal">'>='</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_MAIORIGUAL.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_MULT">
+  <h3>T_MULT <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_MULT</span> :  <span class="literal">'*'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_MULT.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_DIV">
+  <h3>T_DIV <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_DIV</span> :  <span class="literal">'div'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_DIV.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_OU">
+  <h3>T_OU <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_OU</span> :  <span class="literal">'ou'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_OU.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_E">
+  <h3>T_E <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_E</span> :  <span class="literal">'e'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_E.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_MAIS">
+  <h3>T_MAIS <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_MAIS</span> :  <span class="literal">'+'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_MAIS.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_MENOS">
+  <h3>T_MENOS <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_MENOS</span> :  <span class="literal">'-'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_MENOS.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_PROCEDIMENTO">
+  <h3>T_PROCEDIMENTO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_PROCEDIMENTO</span> :  <span class="literal">'procedimento'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_PROCEDIMENTO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_SE">
+  <h3>T_SE <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_SE</span> :  <span class="literal">'se'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_SE.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_ENTAO">
+  <h3>T_ENTAO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_ENTAO</span> :  <span class="literal">'entao'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_ENTAO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_SENAO">
+  <h3>T_SENAO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_SENAO</span> :  <span class="literal">'senao'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_SENAO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_ATRIBUICAO">
+  <h3>T_ATRIBUICAO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_ATRIBUICAO</span> :  <span class="literal">':='</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_ATRIBUICAO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_FUNCAO">
+  <h3>T_FUNCAO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_FUNCAO</span> :  <span class="literal">'funcao'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_FUNCAO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_BOOLEANO">
+  <h3>T_BOOLEANO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_BOOLEANO</span> :  <span class="literal">'booleano'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_BOOLEANO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_FIMCOMANDO">
+  <h3>T_FIMCOMANDO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_FIMCOMANDO</span> :  <span class="literal">'fim'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_FIMCOMANDO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_PONTOEVIRGULA">
+  <h3>T_PONTOEVIRGULA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_PONTOEVIRGULA</span> :  <span class="literal">';'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_PONTOEVIRGULA.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_FIM">
+  <h3>T_FIM <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_FIM</span> :  <span class="literal">'fim.'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_FIM.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_VAR">
+  <h3>T_VAR <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_VAR</span> :  <span class="literal">'var'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_VAR.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_VIRGULA">
+  <h3>T_VIRGULA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_VIRGULA</span> :  <span class="literal">','</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_VIRGULA.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_DOISPONTOS">
+  <h3>T_DOISPONTOS <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_DOISPONTOS</span> :  <span class="literal">':'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_DOISPONTOS.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_ABREPARENTESES">
+  <h3>T_ABREPARENTESES <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_ABREPARENTESES</span> :  <span class="literal">'('</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_ABREPARENTESES.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_FECHAPARENTESES">
+  <h3>T_FECHAPARENTESES <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_FECHAPARENTESES</span> :  <span class="literal">')'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_FECHAPARENTESES.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_ESCREVA">
+  <h3>T_ESCREVA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_ESCREVA</span> :  <span class="literal">'escreva'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_ESCREVA.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_UNDERLINE">
+  <h3>T_UNDERLINE <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_UNDERLINE</span> :  <span class="literal">'_'</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_UNDERLINE.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_DIGITO">
+  <h3>T_DIGITO <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_DIGITO</span> :  <span class="operator">(</span><span class="literal">'0'</span><span class="operator">..</span><span class="literal">'9'</span><span class="operator">)</span><span class="operator">+</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_DIGITO.png" />
+  </div>
+  </li>
+  <li class="rule" id="T_LETRA">
+  <h3>T_LETRA <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">T_LETRA</span> :  <span class="operator">(</span><span class="literal">'a'</span><span class="operator">..</span><span class="literal">'z'</span> <span class="operator">|</span> <span class="literal">'A'</span><span class="operator">..</span><span class="literal">'Z'</span><span class="operator">)</span><span class="operator">+</span> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/T_LETRA.png" />
+  </div>
+  </li>
+  <li class="rule" id="WS">
+  <h3>WS <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">WS</span> :  [<span class="literal"> \t\r\n</span>]<span class="operator">+</span> <span class="operator">-></span> <a href="#skip" class="rule">skip</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/WS.png" />
+  </div>
+  </li>
+  <li class="rule" id="COMMENT">
+  <h3>COMMENT <a class="topLink" title="Go to top" href="Gramatica.g4.html">Top</a></h3>
+  <div class="doc">
+    <p>
+    </p>
+  </div>
+  <div class="ebnf">
+  <h4>Text notation:</h4>
+  <div>
+    <span class="rule">COMMENT</span> :  <span class="literal">'#'</span> <span class="operator">~</span>[<span class="literal">\r\n</span>]<span class="operator">*</span> <span class="literal">'\r'</span><span class="operator">?</span> <span class="literal">'\n'</span> <span class="operator">-></span> <a href="#skip" class="rule">skip</a> ;
+  </div>
+  </div>
+  <div class="railroad">
+  <h4>Visual notation:</h4>
+  <img border="0" src="images/COMMENT.png" />
+  </div>
+  </li>
+</ul>
+</div>
+</div>
+<footer>Generated by: <a href="https://github.com/jknack/antlr4ide">ANTLR 4 IDE</a>. Copyright (c) 2013 <a href="https://twitter.com/edgarespina">Edgar Espina</a></footer>
+</body>
+</html>

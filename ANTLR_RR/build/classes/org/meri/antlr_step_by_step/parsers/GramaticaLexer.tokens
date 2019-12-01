@@ -1,0 +1,13 @@
+T_EOF=1
+T_mais=2
+T_menos=3
+T_divi=4
+T_vezes=5
+T_num=6
+T_id=7
+T_space=8
+';'=1
+'+'=2
+'-'=3
+'/'=4
+'*'=5
