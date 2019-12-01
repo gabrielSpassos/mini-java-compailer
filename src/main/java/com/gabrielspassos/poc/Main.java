@@ -10,21 +10,14 @@ public class Main {
     public static void main(String[] args) {
         try {
             String fileName = getFileName(args);
-            Runtime run = Runtime.getRuntime();
             AnalisadorSintatico analisadorSintatico = new AnalisadorSintatico(fileName);
+            GeradorByteCode geradorByteCode = new GeradorByteCode();
             System.out.println("Analisando o arquivo " + fileName);
-            System.out.println("Analise Sintatica: " + analisadorSintatico.analisaMiniJava());
-
-            //GERA O BYTECODE DO ARQUIVO TESTADO
-            System.out.println("GERANDO BYTECODE...");
-                try{
-                    String gerarByteCode = "javac " + DEFAULT_FILE;
-                    run.exec(gerarByteCode);
-                    System.out.println("BYTECODE GERADO COM SUCESSO");
-                }catch(Exception err){
-                    System.out.println("ERRO! na geração do bytecode " + err.getMessage());
-                }
-
+            Boolean analiseMiniJava = analisadorSintatico.analisaMiniJava();
+            System.out.println("Analise Sintatica: " + analiseMiniJava);
+            if (analiseMiniJava) {
+                geradorByteCode.generateByteCode(fileName);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
