@@ -23,19 +23,13 @@ contêm as palavras revervadas, operadores e por eles que se encontra o Tipo do 
 - Classe [AnalisadorLexico](https://github.com/gabrielSpassos/mini-java-compailer/blob/master/src/main/java/com/gabrielspassos/poc/AnalisadorLexico.java)
 contêm método para a busca de lista de Tokens, faz a leitura dos caracteres do código fonte e lida com os mesmo retornando o respectivo Token.
 
-Considerações:
+- Classe [Analisador Sintático](https://github.com/gabrielSpassos/mini-java-compiler/blob/master/src/main/java/com/gabrielspassos/poc/AnalisadorSintatico.java) verifica se a ordem das palavras é aceitável na gramática.
 
-Inicialmente, optou-se por utilizar a abordagem Minijava para este trabalho, assim como realizado no trabalho do Grau A. 
+- Classe [Analisador Semântico](https://github.com/gabrielSpassos/mini-java-compiler/blob/master/src/main/java/com/gabrielspassos/poc/AnalisadorSemantico.java) verifica se as regras semânticas estão sendo respeitadas. Ou seja, esse analisador verifica que não há uma operação com variável booleana. 
 
-Devido à complexidade dessa construção, porém, começamos a fazer a implementação usando a ferramenta ANTLR. Contudo, não foi possível construir o compilador nessa ferramenta em função de um erro de versão que não conseguimos resolver. Mesmo assim, foi possível completar a implementação do analisador léxico no ANTLR e parte do analisador sintático, e a construção da gramática pode ser avaliada usando a ferramenta ANTLR (Pasta ANTRL_RR).
+- Classe [GeradorByteCode](https://github.com/gabrielSpassos/mini-java-compiler/blob/master/src/main/java/com/gabrielspassos/poc/GeradorByteCode.java) gera o bytecode usando o comando javac sum.java, após todas as outras análises retornarem true. (sum.java é o nome do arquivo utiliado para teste).
 
-A partir dessas dificuldades, concluímos a implementação dos analisadores sintático e semântico usando Minijava, porém com uma implementação simplificada, buscando garantir seu funcionamento. 
-
-Além disso, é necessário fazer as seguintes observações:
-- As seguintes declarações não são aceitas: "5 + 3 - 8" e "a = 3 + 2"
-- O nome do arquivo gerado pelo gerador de bytecode é o nome da classe principal do arquivo testado
-- O Javac é possível executar no Linux, porém não funcionou quando rodamos nosso compilador
 
 Link para o passo a passo para compilar e executar o programa na IDEA IntelliJ: https://docs.google.com/document/d/1ZI2GN-MpTqKofs3Mxk1MG7gY_C-gjh0ZHBbil95WlHs/edit?usp=sharing
 
-Link para a apresentação do PowerPoint: https://docs.google.com/presentation/d/1gFA5dHvlKEqgsOeqg8Wced-rapL93c4lj_dzXj-fIeI/edit?usp=sharing
+Link para a apresentação do PowerPoint (Léxico): https://docs.google.com/presentation/d/1gFA5dHvlKEqgsOeqg8Wced-rapL93c4lj_dzXj-fIeI/edit?usp=sharing
