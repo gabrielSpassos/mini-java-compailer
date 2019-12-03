@@ -1,6 +1,6 @@
-# Mini Java Compiler - Compiladores Grau A
+# Mini Java Compiler - Compiladores Grau B
 
-Projeto para realizar a compilação de um arquivo escrito na linguagem [Minijava](http://www.cambridge.org/us/features/052182060X/). O trabalho foi realizado pelos seguintes alunos:
+Projeto para realizar a compilação de um arquivo escrito na linguagem [Minijava](http://www.cambridge.org/us/features/052182060X/) para gerção de Bytecode. O trabalho foi realizado pelos seguintes alunos:
 
 - [Eduardo Amroginski](https://github.com/CrazyAMK)
 - Matrícula: 2015111384
@@ -28,7 +28,6 @@ contêm método para a busca de lista de Tokens, faz a leitura dos caracteres do
 - Classe [Analisador Semântico](https://github.com/gabrielSpassos/mini-java-compiler/blob/master/src/main/java/com/gabrielspassos/poc/AnalisadorSemantico.java) verifica se as regras semânticas estão sendo respeitadas. Ou seja, esse analisador verifica que não há uma operação com variável booleana. 
 
 - Classe [GeradorByteCode](https://github.com/gabrielSpassos/mini-java-compiler/blob/master/src/main/java/com/gabrielspassos/poc/GeradorByteCode.java) gera o bytecode usando o comando javac sum.java, após todas as outras análises retornarem true. (sum.java é o nome do arquivo utiliado para teste).
-
 
 Link para o passo a passo para compilar e executar o programa na IDEA IntelliJ: https://docs.google.com/document/d/1ZI2GN-MpTqKofs3Mxk1MG7gY_C-gjh0ZHBbil95WlHs/edit?usp=sharing
 
