@@ -24,6 +24,7 @@ contêm as palavras revervadas, operadores e por eles que se encontra o Tipo do 
 contêm método para a busca de lista de Tokens, faz a leitura dos caracteres do código fonte e lida com os mesmo retornando o respectivo Token.
 
 Considerações:
+
 Inicialmente, optou-se por utilizar a abordagem Minijava para este trabalho, assim como realizado no trabalho do Grau A. 
 
 Devido à complexidade dessa construção, porém, começamos a fazer a implementação usando a ferramenta ANTLR. Contudo, não foi possível construir o compilador nessa ferramenta em função de um erro de versão que não conseguimos resolver. Mesmo assim, foi possível completar a implementação do analisador léxico no ANTLR e parte do analisador sintático, e a construção da gramática pode ser avaliada usando a ferramenta ANTLR (Pasta ANTRL_RR).
