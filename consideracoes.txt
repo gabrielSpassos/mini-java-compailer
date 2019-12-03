@@ -8,3 +8,4 @@ Além disso, é necessário fazer as seguintes observações:
 - As seguintes declarações não são aceitas: "5 + 3 - 8" e "a = 3 + 2"
 - O nome do arquivo gerado pelo gerador de bytecode é o nome da classe principal do arquivo testado
 - O Javac é possível executar no Linux, porém não funcionou quando rodamos nosso compilador
+- A execução do javac criou o arquivo Add.java (<nome da class>.java). Para executar o arquivo, é necessário apenas usar o Add.java
